@@ -33,7 +33,7 @@ variable "cf_record_type" {
 variable "cf_record_proxied" {
   type        = bool
   description = "Whether to proxy the record through Cloudflare or not."
-  default     = false
+  default     = true
 }
 
 # Check out https://hub.docker.com/r/seafileltd/seafile-mc.
