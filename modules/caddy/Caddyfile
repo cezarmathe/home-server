@@ -1,0 +1,10 @@
+(defaults_public) {
+    encode zstd gzip
+}
+
+%{ for service in public_services ~}
+${service.hostname} {
+    import defaults_public
+    reverse_proxy ${service.address}
+}
+%{ endfor ~}
