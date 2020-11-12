@@ -7,5 +7,5 @@ output "service_hostname" {
 
 # The address of the Seafile service.
 output "service_address" {
-  value = "${docker_container.seafile.network_data[0].ip_address}:8000"
+  value = "${docker_container.seafile.network_data[0].ip_address}:80"
 }

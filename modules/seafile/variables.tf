@@ -56,7 +56,22 @@ variable "seafile_memcached_image_version" {
 
 variable "seafile_data_mountpoint" {
   type        = string
-  description = "Location on the host where the Seafile volume will be created."
+  description = "Location on the host where the Seafile data volume will be created."
+}
+
+variable "seafile_config_mountpoint" {
+  type        = string
+  description = "Location on the host where the Seafile config volume will be created."
+}
+
+variable "seafile_logs_mountpoint" {
+  type        = string
+  description = "Location on the host where the Seafile logs volume will be created."
+}
+
+variable "seafile_storage_mountpoint" {
+  type        = string
+  description = "Location on the host where the Seafile storage volume will be created."
 }
 
 variable "seafile_db_data_mountpoint" {
