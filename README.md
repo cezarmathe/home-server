@@ -2,16 +2,13 @@
 
 A project for hosting a few services on my server at home.
 
-# Starter `main_override.tf`
+# Starter `locals_overrise.tf`
 
 ```hcl
-module "seafile" {
-  source = "./modules/seafile"
+# home-server - locals
 
-  docker_host = var.docker_host
-
-  cf_api_token      = var.cloudflare_api_token
-  cf_zone_id        = cloudflare_zone.main.id
+# seafile variables
+locals {
   cf_record_name    = ""
   cf_record_value   = ""
   cf_record_type    = ""
@@ -21,6 +18,9 @@ module "seafile" {
   seafile_memcached_image_version = ""
 
   seafile_data_mountpoint    = ""
+  seafile_config_mountpoint  = ""
+  seafile_logs_mountpoint    = ""
+  seafile_storage_mountpoint = ""
   seafile_db_data_mountpoint = ""
 
   seafile_db_root_password = ""
@@ -31,20 +31,10 @@ module "seafile" {
   timezone = ""
 }
 
-module "caddy" {
-  source = "./modules/caddy"
-
-  docker_host = var.docker_host
-
+# caddy variables
+locals {
   caddy_image_version     = ""
   caddy_data_mountpoint   = ""
   caddy_config_mountpoint = ""
-
-  public_services = [
-    {
-      hostname = module.seafile.service_hostname
-      address  = module.seafile.service_address
-    }
-  ]
 }
 ```
