@@ -2,7 +2,7 @@
 
 A project for hosting a few services on my server at home.
 
-## Starter `locals_override.tf`
+## Starter `locals.tf`
 
 ```hcl
 # home-server - locals
