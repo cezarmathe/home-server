@@ -76,3 +76,20 @@ module "caddy" {
     }
   ]
 }
+
+module "minecraft" {
+  source = "./modules/minecraft"
+
+  docker_host = var.docker_host
+
+  minecraft_image_version = local.minecraft_image_version
+  minecraft_mountpoint    = local.minecraft_mountpoint
+
+  minecraft_version = local.minecraft_version
+
+  java_memory      = local.minecraft_java_memory
+  container_memory = local.minecraft_container_memory
+  cpu_set          = local.minecraft_cpu_set
+
+  timezone = local.timezone
+}

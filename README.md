@@ -7,6 +7,10 @@ A project for hosting a few services on my server at home.
 ```hcl
 # home-server - locals
 
+locals {
+  timezone = ""
+}
+
 # seafile variables
 locals {
   cf_record_name    = ""
@@ -27,8 +31,6 @@ locals {
 
   seafile_admin_email    = ""
   seafile_admin_password = ""
-
-  timezone = ""
 }
 
 # caddy variables
@@ -36,5 +38,17 @@ locals {
   caddy_image_version     = ""
   caddy_data_mountpoint   = ""
   caddy_config_mountpoint = ""
+}
+
+# minecraft variables
+locals {
+  minecraft_image_version = ""
+  minecraft_mountpoint    = ""
+
+  minecraft_version = ""
+
+  minecraft_java_memory      = ""
+  minecraft_container_memory = ""
+  minecraft_cpu_set          = ""
 }
 ```
