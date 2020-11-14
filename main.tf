@@ -65,9 +65,11 @@ module "caddy" {
 
   docker_host = var.docker_host
 
-  caddy_image_version     = local.caddy_image_version
   caddy_data_mountpoint   = local.caddy_data_mountpoint
   caddy_config_mountpoint = local.caddy_config_mountpoint
+
+  cf_email     = local.cf_email
+  cf_api_token = var.cf_api_token
 
   public_services = [
     {

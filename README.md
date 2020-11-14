@@ -35,9 +35,10 @@ locals {
 
 # caddy variables
 locals {
-  caddy_image_version     = ""
   caddy_data_mountpoint   = ""
   caddy_config_mountpoint = ""
+
+  cf_email = ""
 }
 
 # minecraft variables
