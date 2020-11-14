@@ -40,25 +40,26 @@ resource "docker_container" "minecraft" {
   image = docker_image.minecraft.latest
 
   env = [
-    "MEMORY=${var.java_memory}", # 3G
+    "MEMORY=${var.java_memory}",
     "EULA=TRUE",
     "VERSION=${var.minecraft_version}",
     "TZ=${var.timezone}"
   ]
 
-  memory  = var.container_memory # "4000"
-  cpu_set = var.cpu_set # "4"
+  memory      = var.container_memory
+  memory_swap = var.container_memory
+  cpu_set     = var.cpu_set
 
   # minecraft server port
   ports {
     internal = 25565
-    external = var.server_port_external # 25565
+    external = var.server_port_external
   }
   # rcon port
   ports {
     internal = 25575
-    external = var.rcon_port_external # 25575
-    ip       = var.rcon_ip            # "127.0.0.1"
+    external = var.rcon_port_external
+    ip       = var.rcon_ip
   }
 
   upload {
