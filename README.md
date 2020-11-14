@@ -50,5 +50,7 @@ locals {
   minecraft_java_memory      = ""
   minecraft_container_memory = ""
   minecraft_cpu_set          = ""
+
+  minecraft_stevebot_token = ""
 }
 ```

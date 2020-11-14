@@ -91,5 +91,7 @@ module "minecraft" {
   container_memory = local.minecraft_container_memory
   cpu_set          = local.minecraft_cpu_set
 
+  stevebot_token = local.minecraft_stevebot_token
+
   timezone = local.timezone
 }
