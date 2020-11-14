@@ -53,9 +53,13 @@ resource "docker_container" "caddy" {
   upload {
     file    = "/etc/caddy/Caddyfile"
     content = templatefile("${path.module}/Caddyfile", {
-      cf_email        = var.cf_email
-      cf_api_token    = var.cf_api_token
-      public_services = var.public_services
+      cf_email     = var.cf_email
+      cf_api_token = var.cf_api_token
+      lan_cidr     = var.lan_cidr
+      vpn_cidr     = var.vpn_cidr
+
+      public_services  = var.public_services
+      private_services = var.private_services
     })
   }
 

@@ -25,11 +25,32 @@ variable "cf_api_token" {
   description = "Cloudflare API token(used for the DNS challenge)."
 }
 
+variable "lan_cidr" {
+  type        = string
+  description = "LAN CIDR that Caddy will allow to access the private services."
+  default     = "192.168.0.0/24"
+}
+
+variable "vpn_cidr" {
+  type        = string
+  description = "VPN CIDR that Caddy will allow to access the private services."
+  default     = "10.0.0.0/24"
+}
+
 variable "public_services" {
   type = list(object({
     hostname = string
     address  = string
   }))
   description = "A list of public services that Caddy will proxy."
+  default     = []
+}
+
+variable "private_services" {
+  type = list(object({
+    hostname = string
+    address  = string
+  }))
+  description = "A list of private services that Caddy will proxy."
   default     = []
 }

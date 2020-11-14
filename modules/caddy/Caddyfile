@@ -1,13 +1,29 @@
-(defaults_public) {
+(defaults) {
     encode zstd gzip
     tls ${cf_email} {
         dns cloudflare ${cf_api_token}
     }
-}
+}\
 
 %{ for service in public_services ~}
 ${service.hostname} {
-    import defaults_public
+    import defaults
     reverse_proxy ${service.address}
+}
+%{ endfor ~}
+
+%{ for service in private_services ~}
+${service.hostname} {
+    import defaults
+
+    @private {
+        remote_ip ${lan_cidr} ${vpn_cidr}
+    }
+    reverse_proxy @private ${service.address}
+
+    respond 200 {
+        body Hello! This is a private service, therefore, I am not allowed to let you access it.
+        close
+    }
 }
 %{ endfor ~}
