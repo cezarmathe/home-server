@@ -5,11 +5,6 @@ variable "docker_host" {
   description = "Docker host for deploying the home server."
 }
 
-variable "caddy_image_version" {
-  type        = string
-  description = "The caddy docker image version to use."
-}
-
 variable "caddy_data_mountpoint" {
   type        = string
   description = "Local mountpoint for the caddy data volume."
@@ -18,6 +13,16 @@ variable "caddy_data_mountpoint" {
 variable "caddy_config_mountpoint" {
   type        = string
   description = "Local mountpoint for the caddy config volume."
+}
+
+variable "cf_email" {
+  type        = string
+  description = "Cloudflare email(used for the DNS challenge)."
+}
+
+variable "cf_api_token" {
+  type        = string
+  description = "Cloudflare API token(used for the DNS challenge)."
 }
 
 variable "public_services" {

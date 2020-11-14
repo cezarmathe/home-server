@@ -15,7 +15,7 @@ provider "docker" {
 }
 
 data "docker_registry_image" "caddy" {
-  name = "caddy:${var.caddy_image_version}"
+  name = "cezarmathe/caddy:latest"
 }
 
 resource "docker_image" "caddy" {
@@ -43,12 +43,18 @@ resource "docker_container" "caddy" {
   name  = "caddy"
   image = docker_image.caddy.latest
 
+  env = [
+    "ACME_AGREE=true",
+  ]
+
   network_mode = "host"
 
   # caddy configuration file
   upload {
     file    = "/etc/caddy/Caddyfile"
     content = templatefile("${path.module}/Caddyfile", {
+      cf_email        = var.cf_email
+      cf_api_token    = var.cf_api_token
       public_services = var.public_services
     })
   }
