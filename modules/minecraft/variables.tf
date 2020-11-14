@@ -63,6 +63,17 @@ variable "rcon_ip" {
   default     = "127.0.0.1"
 }
 
+variable "stevebot_token" {
+  type        = string
+  description = "Stevebot Discord token."
+}
+
+variable "stevebot_command_prefix" {
+  type        = string
+  description = "Stevebot command prefix."
+  default     = "~"
+}
+
 # Minecraft server.properties configuration.
 # Documentation and source of default values available at https://minecraft.gamepedia.com/Server.properties.
 

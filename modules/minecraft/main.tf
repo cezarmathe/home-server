@@ -19,10 +19,20 @@ data "docker_registry_image" "minecraft" {
   name = "itzg/minecraft-server:${var.minecraft_image_version}"
 }
 
+data "docker_registry_image" "stevebot" {
+  name = "cezarmathe/stevebot:0.0.2"
+}
+
 # Minecraft Docker image.
 resource "docker_image" "minecraft" {
   name          = data.docker_registry_image.minecraft.name
   pull_triggers = [data.docker_registry_image.minecraft.sha256_digest]
+}
+
+# Stevebot Docker image.
+resource "docker_image" "stevebot" {
+  name          = data.docker_registry_image.stevebot.name
+  pull_triggers = [data.docker_registry_image.stevebot.sha256_digest]
 }
 
 # Minecraft Docker volume.
@@ -47,17 +57,17 @@ resource "docker_container" "minecraft" {
   ]
 
   memory      = var.container_memory
-  memory_swap = var.container_memory
+  # memory_swap = var.container_memory
   cpu_set     = var.cpu_set
 
   # minecraft server port
   ports {
-    internal = 25565
+    internal = var.mc_server_port
     external = var.server_port_external
   }
   # rcon port
   ports {
-    internal = 25575
+    internal = var.mc_rcon_port
     external = var.rcon_port_external
     ip       = var.rcon_ip
   }
@@ -127,6 +137,24 @@ resource "docker_container" "minecraft" {
     volume_name    = docker_volume.minecraft.name
     container_path = "/data"
   }
+
+  must_run = true
+  restart  = "unless-stopped"
+  start    = true
+}
+
+# Stevebot minecraft container
+resource "docker_container" "stevebot" {
+  name  = "stevebot"
+  image = docker_image.stevebot.latest
+
+  env = [
+    "STEVEBOT_TOKEN=${var.stevebot_token}",
+    "STEVEBOT_COMMAND_PREFIX=${var.stevebot_command_prefix}",
+    "STEVEBOT_RCON_HOST=${docker_container.minecraft.network_data[0].ip_address}",
+    "STEVEBOT_RCON_PORT=${var.mc_rcon_port}",
+    "STEVEBOT_RCON_PASS=${var.mc_rcon_password}",
+  ]
 
   must_run = true
   restart  = "unless-stopped"
