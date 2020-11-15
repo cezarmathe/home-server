@@ -38,9 +38,9 @@ module "seafile" {
 
   cf_api_token    = var.cf_api_token
   cf_zone_id      = cloudflare_zone.main.id
-  cf_record_name  = local.cf_record_name
-  cf_record_value = local.cf_record_value
-  cf_record_type  = local.cf_record_type
+  cf_record_name  = local.seafile_cf_record_name
+  cf_record_value = local.seafile_cf_record_value
+  cf_record_type  = local.seafile_cf_record_type
 
   seafile_image_version           = local.seafile_image_version
   seafile_db_image_version        = local.seafile_db_image_version
