@@ -39,6 +39,9 @@ locals {
   caddy_config_mountpoint = ""
 
   cf_email = ""
+
+  lan_cidr = ""
+  vpn_cidr = ""
 }
 
 # minecraft variables

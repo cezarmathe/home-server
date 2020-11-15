@@ -71,12 +71,17 @@ module "caddy" {
   cf_email     = local.cf_email
   cf_api_token = var.cf_api_token
 
+  lan_cidr = local.lan_cidr
+  vpn_cidr = local.vpn_cidr
+
   public_services = [
     {
       hostname = module.seafile.service_hostname
       address  = module.seafile.service_address
     }
   ]
+
+  private_services = []
 }
 
 module "minecraft" {
