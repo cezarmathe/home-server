@@ -57,4 +57,17 @@ locals {
 
   minecraft_stevebot_token = ""
 }
+
+# transmission variables
+locals {
+  transmission_image_version = ""
+
+  transmission_cf_record_name  = ""
+  transmission_cf_record_value = ""
+  transmission_cf_record_type  = ""
+
+  transmission_config_mountpoint            = ""
+  transmission_watch_mountpoint             = ""
+  transmission_downloads_default_mountpoint = ""
+}
 ```

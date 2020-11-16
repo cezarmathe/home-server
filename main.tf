@@ -81,7 +81,12 @@ module "caddy" {
     }
   ]
 
-  private_services = []
+  private_services = [
+    {
+      hostname = module.transmission.service_hostname
+      address  = module.transmission.service_address
+    }
+  ]
 }
 
 module "minecraft" {
@@ -101,4 +106,22 @@ module "minecraft" {
   stevebot_token = local.minecraft_stevebot_token
 
   timezone = local.timezone
+}
+
+module "transmission" {
+  source = "./modules/transmission"
+
+  docker_host = var.docker_host
+
+  image_version = local.transmission_image_version
+
+  cf_api_token    = var.cf_api_token
+  cf_zone_id      = cloudflare_zone.main.id
+  cf_record_name  = local.transmission_cf_record_name
+  cf_record_value = local.transmission_cf_record_value
+  cf_record_type  = local.transmission_cf_record_type
+
+  config_mountpoint            = local.transmission_config_mountpoint
+  watch_mountpoint             = local.transmission_watch_mountpoint
+  downloads_default_mountpoint = local.transmission_downloads_default_mountpoint
 }
