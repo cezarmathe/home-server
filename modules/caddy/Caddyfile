@@ -22,7 +22,7 @@ ${service.hostname} {
     reverse_proxy @private ${service.address}
 
     respond 200 {
-        body Hello! This is a private service, therefore, I am not allowed to let you access it.
+        body "Hello! This is a private service, therefore, I am not allowed to let you access it."
         close
     }
 }
