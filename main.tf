@@ -78,7 +78,7 @@ module "caddy" {
     {
       hostname = module.seafile.service_hostname
       address  = module.seafile.service_address
-    }
+    },
   ]
 
   private_services = [
@@ -89,7 +89,11 @@ module "caddy" {
     {
       hostname = module.plex.service_hostname
       address  = module.plex.service_address
-    }
+    },
+    {
+      hostname = module.cups.service_hostname
+      address  = module.cups.service_address
+    },
   ]
 }
 
@@ -149,6 +153,7 @@ module "coredns" {
   hostnames = [
     module.transmission.service_hostname,
     module.plex.service_hostname,
+    module.cups.service_hostname,
   ]
 }
 
@@ -170,4 +175,20 @@ module "plex" {
   tvseries_mountpoint = local.plex_tvseries_mountpoint
 
   plex_claim = local.plex_claim
+}
+
+module "cups" {
+  source = "./modules/cups"
+
+  docker_host = var.docker_host
+
+  image_version = local.cups_image_version
+
+  cf_api_token    = var.cf_api_token
+  cf_zone_id      = cloudflare_zone.main.id
+  cf_record_name  = local.cups_cf_record_name
+  cf_record_value = local.cups_cf_record_value
+  cf_record_type  = local.cups_cf_record_type
+
+  config_mountpoint = local.cups_config_mountpoint
 }

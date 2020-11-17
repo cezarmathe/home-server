@@ -92,4 +92,15 @@ locals {
 
   plex_claim = ""
 }
+
+# cups
+locals {
+  cups_image_version = ""
+
+  cups_cf_record_name  = ""
+  cups_cf_record_value = ""
+  cups_cf_record_type  = ""
+
+  cups_config_mountpoint = ""
+}
 ```
