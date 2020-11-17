@@ -88,6 +88,11 @@ resource "docker_container" "plex" {
   }
 
   ports {
+    internal = 32400
+    external = 32400
+    protocol = "tcp"
+  }
+  ports {
     internal = 1900
     external = 1900
     protocol = "udp"
