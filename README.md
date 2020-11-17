@@ -9,13 +9,20 @@ A project for hosting a few services on my server at home.
 
 locals {
   timezone = ""
+
+  lan_cidr = ""
+  lan_addr = ""
+  vpn_addr = ""
+  vpn_cidr = ""
+
+  cf_email = "me@cezarmathe.com"
 }
 
 # seafile variables
 locals {
-  cf_record_name    = ""
-  cf_record_value   = ""
-  cf_record_type    = ""
+  seafile_cf_record_name  = ""
+  seafile_cf_record_value = ""
+  seafile_cf_record_type  = ""
 
   seafile_image_version           = ""
   seafile_db_image_version        = ""
@@ -37,11 +44,6 @@ locals {
 locals {
   caddy_data_mountpoint   = ""
   caddy_config_mountpoint = ""
-
-  cf_email = ""
-
-  lan_cidr = ""
-  vpn_cidr = ""
 }
 
 # minecraft variables
@@ -70,4 +72,10 @@ locals {
   transmission_watch_mountpoint             = ""
   transmission_downloads_default_mountpoint = ""
 }
+
+# coredns
+locals {
+  coredns_image_version = ""
+}
+
 ```

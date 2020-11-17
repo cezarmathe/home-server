@@ -125,3 +125,22 @@ module "transmission" {
   watch_mountpoint             = local.transmission_watch_mountpoint
   downloads_default_mountpoint = local.transmission_downloads_default_mountpoint
 }
+
+module "coredns" {
+  source = "./modules/coredns"
+
+  docker_host = var.docker_host
+
+  zone = cloudflare_zone.main.zone
+
+  image_version = local.coredns_image_version
+
+  lan_cidr = local.lan_cidr
+  lan_addr = "192.168.1.200"
+  vpn_cidr = local.vpn_cidr
+  vpn_addr = "10.125.169.0"
+
+  hostnames = [
+    module.transmission.service_hostname,
+  ]
+}
