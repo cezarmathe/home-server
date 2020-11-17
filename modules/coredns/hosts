@@ -1,0 +1,5 @@
+# CoreDNS hosts file. Template filled and uploaded by Terraform. Do not edit manually!
+
+%{ for hostname in hostnames ~}
+${addr} ${hostname}
+%{ endfor ~}

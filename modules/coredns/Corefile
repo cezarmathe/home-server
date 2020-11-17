@@ -1,0 +1,27 @@
+# CoreDNS configuration file. Template filled and uploaded by Terraform. Do not edit manually!
+
+${zone}:53 {
+    bind ${addr}
+    cache 30
+    errors
+    hosts /etc/coredns/hosts {
+        fallthrough
+    }
+    forward . tls://1.1.1.1 tls://1.0.0.1 {
+       tls_servername cloudflare-dns.com
+       health_check 5s
+    }
+    reload
+}
+
+# Forward all other requests to the Cloudflare DNS servers.
+.:53 {
+    bind ${addr}
+    cache 30
+    errors
+    forward . tls://1.1.1.1 tls://1.0.0.1 {
+       tls_servername cloudflare-dns.com
+       health_check 5s
+    }
+    reload
+}
