@@ -113,9 +113,10 @@ resource "docker_container" "transmission" {
   # these volumes must already exist
   dynamic "volumes" {
     for_each = var.volumes
+    iterator = volume
     content {
-      volume_name    = volume
-      container_path = "/downloads/${volume}"
+      volume_name    = volume.value
+      container_path = "/downloads/${volume.value}"
     }
   }
 
