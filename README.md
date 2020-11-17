@@ -78,4 +78,18 @@ locals {
   coredns_image_version = ""
 }
 
+# plex
+locals {
+  plex_image_version = ""
+
+  plex_cf_record_name  = ""
+  plex_cf_record_value = ""
+  plex_cf_record_type  = ""
+
+  plex_config_mountpoint   = ""
+  plex_movies_mountpoint   = ""
+  plex_tvseries_mountpoint = ""
+
+  plex_claim = ""
+}
 ```

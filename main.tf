@@ -85,6 +85,10 @@ module "caddy" {
     {
       hostname = module.transmission.service_hostname
       address  = module.transmission.service_address
+    },
+    {
+      hostname = module.plex.service_hostname
+      address  = module.plex.service_address
     }
   ]
 }
@@ -124,6 +128,8 @@ module "transmission" {
   config_mountpoint            = local.transmission_config_mountpoint
   watch_mountpoint             = local.transmission_watch_mountpoint
   downloads_default_mountpoint = local.transmission_downloads_default_mountpoint
+
+  volumes = module.plex.volumes
 }
 
 module "coredns" {
@@ -142,5 +148,26 @@ module "coredns" {
 
   hostnames = [
     module.transmission.service_hostname,
+    module.plex.service_hostname,
   ]
+}
+
+module "plex" {
+  source = "./modules/plex"
+
+  docker_host = var.docker_host
+
+  image_version = local.plex_image_version
+
+  cf_api_token    = var.cf_api_token
+  cf_zone_id      = cloudflare_zone.main.id
+  cf_record_name  = local.plex_cf_record_name
+  cf_record_value = local.plex_cf_record_value
+  cf_record_type  = local.plex_cf_record_type
+
+  config_mountpoint   = local.plex_config_mountpoint
+  movies_mountpoint   = local.plex_movies_mountpoint
+  tvseries_mountpoint = local.plex_tvseries_mountpoint
+
+  plex_claim = local.plex_claim
 }
