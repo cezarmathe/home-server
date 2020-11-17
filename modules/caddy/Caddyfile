@@ -20,10 +20,5 @@ ${service.hostname} {
         remote_ip ${lan_cidr} ${vpn_cidr}
     }
     reverse_proxy @private ${service.address}
-
-    respond 200 {
-        body "Hello! This is a private service, therefore, I am not allowed to let you access it."
-        close
-    }
 }
 %{ endfor ~}
