@@ -87,6 +87,52 @@ resource "docker_container" "plex" {
     container_path = "/dev/dri"
   }
 
+  ports {
+    internal = 1900
+    external = 1900
+    protocol = "udp"
+  }
+  ports {
+    internal = 3005
+    external = 3005
+    protocol = "tcp"
+  }
+  ports {
+    internal = 5353
+    external = 5353
+    protocol = "udp"
+  }
+  ports {
+    internal = 8324
+    external = 8324
+    protocol = "tcp"
+  }
+  ports {
+    internal = 32410
+    external = 32410
+    protocol = "udp"
+  }
+  ports {
+    internal = 32412
+    external = 32412
+    protocol = "udp"
+  }
+  ports {
+    internal = 32413
+    external = 32413
+    protocol = "udp"
+  }
+  ports {
+    internal = 32414
+    external = 32414
+    protocol = "udp"
+  }
+  ports {
+    internal = 32469
+    external = 32469
+    protocol = "tcp"
+  }
+
   # config volume
   volumes {
     volume_name    = docker_volume.plex_config.name
