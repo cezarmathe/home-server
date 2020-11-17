@@ -79,6 +79,8 @@ resource "docker_container" "transmission" {
     "PGID=${var.gid}",
     "TZ=${var.timezone}",
     "TRANSMISSION_WEB_HOME=${var.web_home}",
+    "USER=${var.username}",
+    "PASS=${var.password}",
   ]
 
   # forward torrent tcp port

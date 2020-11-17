@@ -86,3 +86,15 @@ variable "volumes" {
   description = "A list of volume names to attach to Transmission in the downloads directory."
   default     = []
 }
+
+variable "username" {
+  type        = string
+  description = "Transmission webui username."
+  default     = "username"
+}
+
+variable "password" {
+  type        = string
+  description = "Transmission webui password."
+  default     = "password"
+}
