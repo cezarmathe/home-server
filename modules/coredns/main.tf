@@ -25,8 +25,10 @@ resource "docker_image" "coredns" {
   pull_triggers = [data.docker_registry_image.coredns.sha256_digest]
 }
 
-resource "docker_container" "coredns_lan" {
-  name  = "coredns_lan"
+resource "docker_container" "coredns" {
+  for_each = var.addresses
+
+  name  = "coredns_${each.key}"
   image = docker_image.coredns.latest
 
   network_mode = "host"
@@ -36,7 +38,7 @@ resource "docker_container" "coredns_lan" {
     file    = "/coredns/config/Corefile"
     content = templatefile("${path.module}/Corefile", {
       zone = var.zone
-      addr = var.lan_addr
+      addr = each.value
     })
   }
   # coredns hosts file
@@ -44,35 +46,7 @@ resource "docker_container" "coredns_lan" {
     file    = "/etc/coredns/hosts"
     content = templatefile("${path.module}/hosts", {
       hostnames = var.hostnames
-      addr      = var.lan_addr
-    })
-  }
-
-  must_run = true
-  restart  = "unless-stopped"
-  start    = true
-}
-
-resource "docker_container" "coredns_vpn" {
-  name  = "coredns_vpn"
-  image = docker_image.coredns.latest
-
-  network_mode = "host"
-
-  # coredns configuration file
-  upload {
-    file    = "/coredns/config/Corefile"
-    content = templatefile("${path.module}/Corefile", {
-      zone = var.zone
-      addr = var.vpn_addr
-    })
-  }
-  # coredns hosts file
-  upload {
-    file    = "/etc/coredns/hosts"
-    content = templatefile("${path.module}/hosts", {
-      hostnames = var.hostnames
-      addr      = var.vpn_addr
+      addr      = each.value
     })
   }
 
