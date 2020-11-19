@@ -145,10 +145,7 @@ module "coredns" {
 
   image_version = local.coredns_image_version
 
-  lan_cidr = local.lan_cidr
-  lan_addr = "192.168.1.200"
-  vpn_cidr = local.vpn_cidr
-  vpn_addr = "10.125.169.0"
+  addresses = local.coredns_addresses
 
   hostnames = [
     module.transmission.service_hostname,

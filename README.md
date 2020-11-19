@@ -15,7 +15,7 @@ locals {
   vpn_addr = ""
   vpn_cidr = ""
 
-  cf_email = "me@cezarmathe.com"
+  cf_email = ""
 }
 
 # seafile variables
@@ -76,6 +76,8 @@ locals {
 # coredns
 locals {
   coredns_image_version = ""
+
+  coredns_addresses = {}
 }
 
 # plex
