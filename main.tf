@@ -150,6 +150,7 @@ module "coredns" {
   hostnames = [
     module.transmission.service_hostname,
     module.cups.service_hostname,
+    module.plex.service_hostname,
   ]
 }
 
