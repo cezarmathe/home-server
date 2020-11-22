@@ -79,16 +79,16 @@ module "caddy" {
       hostname = module.seafile.service_hostname
       address  = module.seafile.service_address
     },
+    {
+      hostname = module.plex.service_hostname
+      address  = module.plex.service_address
+    },
   ]
 
   private_services = [
     {
       hostname = module.transmission.service_hostname
       address  = module.transmission.service_address
-    },
-    {
-      hostname = module.plex.service_hostname
-      address  = module.plex.service_address
     },
     {
       hostname = module.cups.service_hostname
@@ -149,7 +149,6 @@ module "coredns" {
 
   hostnames = [
     module.transmission.service_hostname,
-    module.plex.service_hostname,
     module.cups.service_hostname,
   ]
 }
