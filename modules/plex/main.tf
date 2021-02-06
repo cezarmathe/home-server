@@ -85,6 +85,7 @@ resource "docker_container" "plex" {
   devices {
     host_path      = "/dev/dri"
     container_path = "/dev/dri"
+    permissions    = "rwm"
   }
 
   ports {
