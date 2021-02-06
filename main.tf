@@ -10,7 +10,12 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 2.0"
     }
+    random = {
+      source = "hashicorp/random"
+      version = "3.0.1"
+    }
   }
+
   required_version = ">= 0.13"
 }
 
@@ -18,6 +23,9 @@ terraform {
 provider "cloudflare" {
   api_token = var.cf_api_token
 }
+
+# Random provider
+provider "random" {}
 
 # Main Cloudflare zone.
 resource "cloudflare_zone" "main" {
@@ -82,6 +90,10 @@ module "caddy" {
     {
       hostname = module.plex.service_hostname
       address  = module.plex.service_address
+    },
+    {
+      hostname = module.nextcloud.service_hostname
+      address  = module.nextcloud.service_address
     },
   ]
 
@@ -151,6 +163,7 @@ module "coredns" {
     module.transmission.service_hostname,
     module.cups.service_hostname,
     module.plex.service_hostname,
+    module.nextcloud.service_hostname,
   ]
 }
 
@@ -188,4 +201,27 @@ module "cups" {
   cf_record_type  = local.cups_cf_record_type
 
   config_mountpoint = local.cups_config_mountpoint
+}
+
+module "nextcloud" {
+  source = "./modules/nextcloud"
+
+  docker_host = var.docker_host
+
+  cf_api_token    = var.cf_api_token
+  cf_zone_id      = cloudflare_zone.main.id
+  cf_record_name  = local.nextcloud_cf_record_name
+  cf_record_value = local.nextcloud_cf_record_value
+  cf_record_type  = local.nextcloud_cf_record_type
+
+  nextcloud_image_version    = local.nextcloud_image_version
+  nextcloud_db_image_version = local.nextcloud_db_image_version
+
+  nextcloud_data_mountpoint    = local.nextcloud_data_mountpoint
+  nextcloud_db_data_mountpoint = local.nextcloud_db_data_mountpoint
+
+  nextcloud_db_root_password = local.nextcloud_db_root_password
+  nextcloud_db_password      = local.nextcloud_db_password
+
+  timezone = local.timezone
 }
