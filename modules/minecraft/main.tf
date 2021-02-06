@@ -57,14 +57,14 @@ resource "docker_container" "minecraft" {
   ]
 
   healthcheck {
-    interval = "30s"
-    retries  = 2
+    interval = "0s"
+    retries  = 0
     start_period = "1m0s"
     test = [
       "CMD-SHELL",
       "/health.sh",
     ]
-    timeout = "1s"
+    timeout = "0s"
   }
 
   memory      = var.container_memory
