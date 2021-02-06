@@ -56,8 +56,19 @@ resource "docker_container" "minecraft" {
     "TZ=${var.timezone}"
   ]
 
+  healthcheck {
+    interval = "30s"
+    retries  = 2
+    start_period = "1m0s"
+    test = [
+      "CMD-SHELL",
+      "/health.sh",
+    ]
+    timeout = "1s"
+  }
+
   memory      = var.container_memory
-  # memory_swap = var.container_memory
+  memory_swap = var.container_memory * 2
   cpu_set     = var.cpu_set
 
   # minecraft server port
