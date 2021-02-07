@@ -60,6 +60,7 @@ resource "docker_container" "caddy" {
 
       public_services  = var.public_services
       private_services = var.private_services
+      blocks           = var.blocks
     })
   }
 
@@ -72,6 +73,15 @@ resource "docker_container" "caddy" {
   volumes {
     volume_name    = docker_volume.caddy_config.name
     container_path = "/config"
+  }
+
+  dynamic "volumes" {
+    for_each = var.html
+
+    content {
+      volume_name    = volumes.value
+      container_path = "/var/www/${volumes.value}"
+    }
   }
 
   must_run = true

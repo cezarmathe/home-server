@@ -54,3 +54,15 @@ variable "private_services" {
   description = "A list of private services that Caddy will proxy."
   default     = []
 }
+
+variable "blocks" {
+  type        = list(string)
+  description = "Full blocks to include in the Caddyfile."
+  default     = []
+}
+
+variable "html" {
+  type        = list(string)
+  description = "Html volumes to mount in /var/www/"
+  default     = []
+}
