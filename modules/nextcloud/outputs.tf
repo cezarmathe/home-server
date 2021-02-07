@@ -5,7 +5,12 @@ output "service_hostname" {
   value = cloudflare_record.nextcloud.name
 }
 
-# The address of the Nextcloud service.
-output "service_address" {
-  value = "${docker_container.nextcloud.network_data[0].ip_address}:80"
+output "service_block" {
+  value = templatefile("${path.module}/Caddyfile", {
+    nextcloud_container_ip = docker_container.nextcloud.network_data[0].ip_address
+  })
+}
+
+output "service_volume" {
+  value = docker_volume.nextcloud_data.name
 }

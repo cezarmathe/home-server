@@ -98,8 +98,8 @@ resource "docker_container" "nextcloud" {
   image = docker_image.nextcloud.latest
 
   env = [
-    "MYSQL_HOST=${docker_container.nextcloud_db.network_data[0].ip_address}",
-    "MYSQL_PASSWORD=${var.nextcloud_db_password}",
+    "MYSQL_HOST=${docker_container.nextcloud_db.name}",
+    "MYSQL_PASSWORD=${var.nextcloud_db_root_password}",
     "MYSQL_DATABASE=nextcloud",
     "MYSQL_USER=nextcloud",
     # "REDIS_HOST=${docker_container.nextcloud_cache.name}",
