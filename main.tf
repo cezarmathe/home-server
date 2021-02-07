@@ -91,10 +91,10 @@ module "caddy" {
       hostname = module.plex.service_hostname
       address  = module.plex.service_address
     },
-    {
-      hostname = module.nextcloud.service_hostname
-      address  = module.nextcloud.service_address
-    },
+    # {
+    #   hostname = module.nextcloud.service_hostname
+    #   address  = module.nextcloud.service_address
+    # },
   ]
 
   private_services = [
@@ -106,6 +106,14 @@ module "caddy" {
       hostname = module.cups.service_hostname
       address  = module.cups.service_address
     },
+  ]
+
+  blocks = [
+    module.nextcloud.service_block,
+  ]
+
+  html = [
+    module.nextcloud.service_volume,
   ]
 }
 
