@@ -105,7 +105,6 @@ locals {
 
   cups_config_mountpoint = ""
 }
-```
 
 # nextcloud
 locals {
@@ -118,3 +117,4 @@ locals {
   nextcloud_db_root_password = ""
   nextcloud_db_password      = ""
 }
+```
