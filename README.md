@@ -105,4 +105,16 @@ locals {
 
   cups_config_mountpoint = ""
 }
+
+# nextcloud
+locals {
+  nextcloud_image_version    = ""
+  nextcloud_db_image_version = ""
+
+  nextcloud_data_mountpoint    = ""
+  nextcloud_db_data_mountpoint = ""
+
+  nextcloud_db_root_password = ""
+  nextcloud_db_password      = ""
+}
 ```
