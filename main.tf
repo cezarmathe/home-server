@@ -39,35 +39,6 @@ resource "cloudflare_zone" "main" {
   }
 }
 
-module "seafile" {
-  source = "./modules/seafile"
-
-  docker_host = var.docker_host
-
-  cf_api_token    = var.cf_api_token
-  cf_zone_id      = cloudflare_zone.main.id
-  cf_record_name  = local.seafile_cf_record_name
-  cf_record_value = local.seafile_cf_record_value
-  cf_record_type  = local.seafile_cf_record_type
-
-  seafile_image_version           = local.seafile_image_version
-  seafile_db_image_version        = local.seafile_db_image_version
-  seafile_memcached_image_version = local.seafile_memcached_image_version
-
-  seafile_data_mountpoint    = local.seafile_data_mountpoint
-  seafile_config_mountpoint  = local.seafile_config_mountpoint
-  seafile_logs_mountpoint    = local.seafile_logs_mountpoint
-  seafile_storage_mountpoint = local.seafile_storage_mountpoint
-  seafile_db_data_mountpoint = local.seafile_db_data_mountpoint
-
-  seafile_db_root_password = local.seafile_db_root_password
-
-  seafile_admin_email    = local.seafile_admin_email
-  seafile_admin_password = local.seafile_admin_password
-
-  timezone = local.timezone
-}
-
 module "caddy" {
   source = "./modules/caddy"
 
@@ -84,17 +55,9 @@ module "caddy" {
 
   public_services = [
     {
-      hostname = module.seafile.service_hostname
-      address  = module.seafile.service_address
-    },
-    {
       hostname = module.plex.service_hostname
       address  = module.plex.service_address
     },
-    # {
-    #   hostname = module.nextcloud.service_hostname
-    #   address  = module.nextcloud.service_address
-    # },
   ]
 
   private_services = [
@@ -102,18 +65,6 @@ module "caddy" {
       hostname = module.transmission.service_hostname
       address  = module.transmission.service_address
     },
-    {
-      hostname = module.cups.service_hostname
-      address  = module.cups.service_address
-    },
-  ]
-
-  blocks = [
-    module.nextcloud.service_block,
-  ]
-
-  html = [
-    module.nextcloud.service_volume,
   ]
 }
 
@@ -169,9 +120,7 @@ module "coredns" {
 
   hostnames = [
     module.transmission.service_hostname,
-    module.cups.service_hostname,
     module.plex.service_hostname,
-    module.nextcloud.service_hostname,
   ]
 }
 
@@ -193,43 +142,4 @@ module "plex" {
   tvseries_mountpoint = local.plex_tvseries_mountpoint
 
   plex_claim = local.plex_claim
-}
-
-module "cups" {
-  source = "./modules/cups"
-
-  docker_host = var.docker_host
-
-  image_version = local.cups_image_version
-
-  cf_api_token    = var.cf_api_token
-  cf_zone_id      = cloudflare_zone.main.id
-  cf_record_name  = local.cups_cf_record_name
-  cf_record_value = local.cups_cf_record_value
-  cf_record_type  = local.cups_cf_record_type
-
-  config_mountpoint = local.cups_config_mountpoint
-}
-
-module "nextcloud" {
-  source = "./modules/nextcloud"
-
-  docker_host = var.docker_host
-
-  cf_api_token    = var.cf_api_token
-  cf_zone_id      = cloudflare_zone.main.id
-  cf_record_name  = local.nextcloud_cf_record_name
-  cf_record_value = local.nextcloud_cf_record_value
-  cf_record_type  = local.nextcloud_cf_record_type
-
-  nextcloud_image_version    = local.nextcloud_image_version
-  nextcloud_db_image_version = local.nextcloud_db_image_version
-
-  nextcloud_data_mountpoint    = local.nextcloud_data_mountpoint
-  nextcloud_db_data_mountpoint = local.nextcloud_db_data_mountpoint
-
-  nextcloud_db_root_password = local.nextcloud_db_root_password
-  nextcloud_db_password      = local.nextcloud_db_password
-
-  timezone = local.timezone
 }
