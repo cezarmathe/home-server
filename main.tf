@@ -1,8 +1,9 @@
 # home-server
 
 terraform {
-  backend "local" {
-    path = "./terraform.tfstate"
+  backend "gcs" {
+    bucket  = "cezarmathe-terraform-remote-state"
+    prefix  = "cezarmathe/home-server"
   }
 
   required_providers {
