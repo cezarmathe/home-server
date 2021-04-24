@@ -10,11 +10,6 @@ terraform {
   required_version = ">= 0.13"
 }
 
-# Docker provider.
-provider "docker" {
-  host = var.docker_host
-}
-
 data "docker_registry_image" "coredns" {
   name = "cezarmathe/coredns:${var.image_version}"
 }

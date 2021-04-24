@@ -10,11 +10,6 @@ terraform {
   required_version = ">= 0.13"
 }
 
-# Docker provider.
-provider "docker" {
-  host = var.docker_host
-}
-
 data "docker_registry_image" "minecraft" {
   name = "itzg/minecraft-server:${var.minecraft_image_version}"
 }

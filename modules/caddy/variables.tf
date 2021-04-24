@@ -1,10 +1,5 @@
 # home-server/caddy - variables
 
-variable "docker_host" {
-  type        = string
-  description = "Docker host for deploying the home server."
-}
-
 variable "caddy_data_mountpoint" {
   type        = string
   description = "Local mountpoint for the caddy data volume."

@@ -2,8 +2,8 @@
 
 terraform {
   backend "gcs" {
-    bucket  = "cezarmathe-terraform-remote-state"
-    prefix  = "cezarmathe/home-server"
+    bucket = "cezarmathe-terraform-remote-state"
+    prefix = "cezarmathe/home-server"
   }
 
   required_providers {
@@ -11,9 +11,9 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 2.0"
     }
-    random = {
-      source = "hashicorp/random"
-      version = "3.0.1"
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 2.11.0"
     }
   }
 
@@ -25,8 +25,10 @@ provider "cloudflare" {
   api_token = var.cf_api_token
 }
 
-# Random provider
-provider "random" {}
+# Docker provider.
+provider "docker" {
+  host = var.docker_host
+}
 
 # Main Cloudflare zone.
 resource "cloudflare_zone" "main" {
@@ -42,8 +44,6 @@ resource "cloudflare_zone" "main" {
 
 module "caddy" {
   source = "./modules/caddy"
-
-  docker_host = var.docker_host
 
   caddy_data_mountpoint   = local.caddy_data_mountpoint
   caddy_config_mountpoint = local.caddy_config_mountpoint
@@ -72,8 +72,6 @@ module "caddy" {
 module "minecraft" {
   source = "./modules/minecraft"
 
-  docker_host = var.docker_host
-
   minecraft_image_version = local.minecraft_image_version
   minecraft_mountpoint    = local.minecraft_mountpoint
 
@@ -91,11 +89,8 @@ module "minecraft" {
 module "transmission" {
   source = "./modules/transmission"
 
-  docker_host = var.docker_host
-
   image_version = local.transmission_image_version
 
-  cf_api_token    = var.cf_api_token
   cf_zone_id      = cloudflare_zone.main.id
   cf_record_name  = local.transmission_cf_record_name
   cf_record_value = local.transmission_cf_record_value
@@ -110,8 +105,6 @@ module "transmission" {
 
 module "coredns" {
   source = "./modules/coredns"
-
-  docker_host = var.docker_host
 
   zone = cloudflare_zone.main.zone
 
@@ -128,11 +121,8 @@ module "coredns" {
 module "plex" {
   source = "./modules/plex"
 
-  docker_host = var.docker_host
-
   image_version = local.plex_image_version
 
-  cf_api_token    = var.cf_api_token
   cf_zone_id      = cloudflare_zone.main.id
   cf_record_name  = local.plex_cf_record_name
   cf_record_value = local.plex_cf_record_value

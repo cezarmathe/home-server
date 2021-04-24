@@ -10,10 +10,6 @@ terraform {
   required_version = ">= 0.13"
 }
 
-provider "docker" {
-  host = var.docker_host
-}
-
 data "docker_registry_image" "caddy" {
   name = "cezarmathe/caddy:latest"
 }

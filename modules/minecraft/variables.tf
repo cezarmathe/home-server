@@ -1,10 +1,5 @@
 # home-server/minecraft - variables
 
-variable "docker_host" {
-  type        = string
-  description = "Docker host for deploying the home server."
-}
-
 variable "minecraft_image_version" {
   type        = string
   description = "The minecraft docker image version to use."

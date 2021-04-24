@@ -14,16 +14,6 @@ terraform {
   required_version = ">= 0.13"
 }
 
-# Docker provider.
-provider "docker" {
-  host = var.docker_host
-}
-
-# Cloudflare provider.
-provider "cloudflare" {
-  api_token = var.cf_api_token
-}
-
 # DNS record for the Plex server.
 resource "cloudflare_record" "plex_service" {
   zone_id  = var.cf_zone_id
