@@ -134,3 +134,11 @@ module "plex" {
 
   plex_claim = local.plex_claim
 }
+
+module "syncthing" {
+  source = "./modules/syncthing"
+
+  config_volume_mountpoint = local.syncthing_config_volume_mountpoint
+  data_volume_mountpoint   = local.syncthing_data_volume_mountpoint
+  timezone                 = local.timezone
+}
