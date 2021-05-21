@@ -14,3 +14,13 @@ variable "cf_zone_name" {
   type        = string
   description = "Cloudflare zone name."
 }
+
+variable "plex_claim" {
+  type        = string
+  description = "Plex claim."
+}
+
+variable "timezone" {
+  type        = string
+  description = "Timezone."
+}
