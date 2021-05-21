@@ -79,16 +79,21 @@ module "coredns" {
   ]
 }
 
+module "minecraft-server-properties" {
+  source  = "cezarmathe/minecraft-server-properties/null"
+  version = "~> 0.1"
+}
+
 module "plex" {
   source  = "cezarmathe/plex/docker"
-  version = "~> 0.1.2"
+  version = "~> 0.1"
 
   plex_claim = var.plex_claim
 }
 
 module "syncthing" {
   source  = "cezarmathe/syncthing/docker"
-  version = "~> 0.1.0"
+  version = "~> 0.1"
 }
 
 module "transmission" {
