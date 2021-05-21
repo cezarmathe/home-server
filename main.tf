@@ -94,11 +94,15 @@ module "plex" {
 module "syncthing" {
   source  = "cezarmathe/syncthing/docker"
   version = "~> 0.1"
+
+  timezone = var.timezone
 }
 
 module "transmission" {
   source  = "cezarmathe/transmission/docker"
   version = "~> 0.2"
+
+  timezone = var.timezone
 }
 
 # DNS record for the Transmission server.
