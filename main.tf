@@ -61,7 +61,7 @@ module "minecraft" {
 
   stevebot_token = local.minecraft_stevebot_token
 
-  timezone = local.timezone
+  timezone = var.timezone
 }
 
 module "coredns" {

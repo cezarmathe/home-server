@@ -19,3 +19,8 @@ variable "plex_claim" {
   type        = string
   description = "Plex claim."
 }
+
+variable "timezone" {
+  type        = string
+  description = "Timezone."
+}
