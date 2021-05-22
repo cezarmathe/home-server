@@ -47,23 +47,6 @@ module "caddy" {
   ]
 }
 
-module "minecraft" {
-  source = "./modules/minecraft"
-
-  minecraft_image_version = local.minecraft_image_version
-  minecraft_mountpoint    = local.minecraft_mountpoint
-
-  minecraft_version = local.minecraft_version
-
-  java_memory      = local.minecraft_java_memory
-  container_memory = local.minecraft_container_memory
-  cpu_set          = local.minecraft_cpu_set
-
-  stevebot_token = local.minecraft_stevebot_token
-
-  timezone = var.timezone
-}
-
 module "coredns" {
   source = "./modules/coredns"
 
@@ -79,7 +62,15 @@ module "coredns" {
   ]
 }
 
-module "minecraft-server-properties" {
+module "minecraft" {
+  source  = "cezarmathe/minecraft-server/docker"
+  version = "~> 0.1"
+
+  server_properties = module.minecraft_server_properties.this
+  timezone = var.timezone
+}
+
+module "minecraft_server_properties" {
   source  = "cezarmathe/minecraft-server-properties/null"
   version = "~> 0.1"
 }
