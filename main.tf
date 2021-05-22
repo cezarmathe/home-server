@@ -82,6 +82,14 @@ module "plex" {
   plex_claim = var.plex_claim
 }
 
+module "stevebot" {
+  source  = "cezarmathe/stevebot/docker"
+  version = "~> 0.2"
+
+  rcon_password  = ""
+  discord_token = ""
+}
+
 module "syncthing" {
   source  = "cezarmathe/syncthing/docker"
   version = "~> 0.1"
