@@ -29,6 +29,6 @@ jobs:
 
         # install required packages
         sudo apt update
-        sudo apt install terraform wireguard-tools
+        sudo apt install --yes terraform wireguard-tools
 
         # todo 27/06/2021: install age
