@@ -41,7 +41,7 @@ module "caddy" {
 
   private_services = [
     {
-      hostname = cloudflare_record.transmission_service.hostname
+      hostname = "torrents.cezarmathe.com"
       address  = "${module.transmission.this_network_data[0].ip_address}:9091"
     },
   ]
@@ -57,7 +57,7 @@ module "coredns" {
   addresses = local.coredns_addresses
 
   hostnames = [
-    cloudflare_record.transmission_service.hostname,
+    "torrents.cezarmathe.com",
     cloudflare_record.plex.hostname,
   ]
 }
@@ -102,16 +102,6 @@ module "transmission" {
   version = "~> 0.2"
 
   timezone = var.timezone
-}
-
-# DNS record for the Transmission server.
-resource "cloudflare_record" "transmission_service" {
-  zone_id  = data.cloudflare_zones.main.zones[0].id
-  name     = local.transmission_cf_record_name
-  value    = local.transmission_cf_record_value
-  type     = local.transmission_cf_record_type
-  proxied  = true
-  ttl      = 1
 }
 
 # DNS record for the Plex server.
