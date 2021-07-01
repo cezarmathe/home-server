@@ -5,7 +5,7 @@ name: 'main'
 on:
   push:
     branches:
-    - $default-branch
+    - master
 
 jobs:
   main:
