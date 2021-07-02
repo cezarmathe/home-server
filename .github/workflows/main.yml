@@ -23,6 +23,8 @@ jobs:
 
     # Initialize the environment.
     - name: Init
+      env:
+        AGE_VERSION: v1.0.0-rc.3
       run: |
         # add the hashicorp apt repository
         curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
@@ -32,11 +34,11 @@ jobs:
         sudo apt update
         sudo apt install --yes terraform wireguard-tools
 
-        # fixme 28/06/2021: hardcoded age version
-        curl -fsSLO https://github.com/FiloSottile/age/releases/download/v1.0.0-rc.3/age-v1.0.0-rc.3-linux-amd64.tar.gz
-        tar xf age-v1.0.0-rc.3-linux-amd64.tar.gz
+        # install age
+        curl -fsSLO https://github.com/FiloSottile/age/releases/download/${AGE_VERSION}/age-${AGE_VERSION}-linux-amd64.tar.gz
+        tar xf age-${AGE_VERSION}-linux-amd64.tar.gz
         sudo mv age/age /usr/local/bin/age
         sudo mv age/age-keygen /usr/local/bin/age-keygen
-        rm age-v1.0.0-rc.3-linux-amd64.tar.gz
+        rm age-${AGE_VERSION}-linux-amd64.tar.gz
         printf "%s\n" "age $(age --version)"
         printf "%s\n" "age-keygen $(age-keygen --version)"
