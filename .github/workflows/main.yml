@@ -42,3 +42,24 @@ jobs:
         rm age-${AGE_VERSION}-linux-amd64.tar.gz
         printf "%s\n" "age $(age --version)"
         printf "%s\n" "age-keygen $(age-keygen --version)"
+
+    # Put secrets in their proper place.
+    - name: Secrets
+      env:
+        AGE_PRIVATE_KEY: ${{ secrets.AGE }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH }}
+        WG_PRIVATE_KEY: ${{ secrets.PRIVATEKEY }}
+        WG0_CONF: ${{ secrets.WG0 }}
+      run: |
+        mkdir -p ~/.age
+        printf "%s" "${AGE_PRIVATE_KEY}" | tee ~/.age/key >/dev/null
+        chmod 400 ~/.age/key
+
+        mkdir -p ~/.ssh
+        printf "%s" "${SSH_PRIVATE_KEY}" | tee ~/.ssh/id_ed25519 >/dev/null
+        chmod 400 ~/.ssh/id_ed25519
+
+        sudo mkdir -p /etc/wireguard
+        printf "%s" "${WG_PRIVATE_KEY}" | sudo tee /etc/wireguard/privatekey >/dev/null
+        printf "%s" "${WG0_CONF}" | sudo tee /etc/wireguard/wg0.conf >/dev/null
+        sudo chmod -R 400 /etc/wireguard
