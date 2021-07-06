@@ -63,3 +63,11 @@ jobs:
         printf "%s" "${WG_PRIVATE_KEY}" | sudo tee /etc/wireguard/privatekey >/dev/null
         printf "%s" "${WG0_CONF}" | sudo tee /etc/wireguard/wg0.conf >/dev/null
         sudo chmod -R 400 /etc/wireguard
+
+    # Connect to the VPN of the server.
+    - name: Connect to the VPN
+      env:
+        SERVER_IP: ${{ secrets.SERVER_IP }}
+      run: |
+        sudo systemctl enable --now wg-quick@wg0
+        ping -c 10 ${SERVER_IP}
