@@ -50,6 +50,8 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.SSH }}
         WG_PRIVATE_KEY: ${{ secrets.PRIVATEKEY }}
         WG0_CONF: ${{ secrets.WG0 }}
+        SERVER_IP: ${{ secrets.SERVER_IP }}
+        SERVER_PUBLIC_KEY: ${{ secrets.SERVER_PUBLIC_KEY }}
       run: |
         mkdir -p ~/.age
         printf "%s" "${AGE_PRIVATE_KEY}" | tee ~/.age/key >/dev/null
@@ -57,6 +59,7 @@ jobs:
 
         mkdir -p ~/.ssh
         printf "%s" "${SSH_PRIVATE_KEY}" | tee ~/.ssh/id_ed25519 >/dev/null
+        printf "%s" "${SERVER_IP} ${SERVER_PUBLIC_KEY}" | tee ~/.ssh/known_hosts
         chmod 400 ~/.ssh/id_ed25519
 
         sudo mkdir -p /etc/wireguard
@@ -68,6 +71,7 @@ jobs:
     - name: Connect to the VPN
       env:
         SERVER_IP: ${{ secrets.SERVER_IP }}
+        SERVER_USER: ${{ secrets.SERVER_USER }}
       run: |
         sudo systemctl enable --now wg-quick@wg0
-        ping -c 10 ${SERVER_IP}
+        ssh ${SERVER_USER}@${SERVER_IP}
