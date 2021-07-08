@@ -52,6 +52,7 @@ jobs:
         WG_CONF: ${{ secrets.WG_CONF }}
         SERVER_HOST: ${{ secrets.SERVER_HOST }}
         SERVER_PUBLIC_KEY: ${{ secrets.SERVER_PUBLIC_KEY }}
+        GCLOUD_PRIVATE_KEY: ${{ secrets.GCLOUD_PRIVATE_KEY }}
       run: |
         mkdir -p ~/.age
         printf "%s" "${AGE_PRIVATE_KEY}" | tee ~/.age/key >/dev/null
@@ -67,6 +68,10 @@ jobs:
         printf "%s" "${WG_CONF}" | sudo tee /etc/wireguard/wg0.conf >/dev/null
         sudo chmod -R 400 /etc/wireguard
 
+        mkdir -p ~/.gcloud
+        printf "%s" "${GCLOUD_PRIVATE_KEY}" | tee ~/.gcloud/key.json
+        chmod 400 ~/.gcloud/key.json
+
     # Connect to the VPN of the server.
     - name: Connect to the VPN
       env:
@@ -75,3 +80,7 @@ jobs:
       run: |
         sudo systemctl enable --now wg-quick@wg0
         ssh ${SERVER_USER}@${SERVER_HOST} && echo "Connected successfully."
+
+    - name: Initialize the Terraform backend
+      run: |
+        make init
