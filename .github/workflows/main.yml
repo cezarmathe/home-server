@@ -70,6 +70,7 @@ jobs:
 
         mkdir -p ~/.gcloud
         printf "%s" "${GCLOUD_PRIVATE_KEY}" | tee ~/.gcloud/key.json
+        chmod 500 ~/.gcloud
         chmod 400 ~/.gcloud/key.json
 
     # Connect to the VPN of the server.
@@ -83,6 +84,6 @@ jobs:
 
     - name: Initialize the Terraform backend
       env:
-        GOOGLE_APPLICATION_CREDENTIALS: ~/.gcloud/key.json
+        GOOGLE_APPLICATION_CREDENTIALS: /home/runner/.gcloud/key.json
       run: |
         make init
