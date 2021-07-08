@@ -33,4 +33,5 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-locals.tf
+# Enable the sample tfvars file.
+!env/sample.tfvars
