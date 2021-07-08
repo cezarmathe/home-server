@@ -82,5 +82,7 @@ jobs:
         ssh ${SERVER_USER}@${SERVER_HOST} && echo "Connected successfully."
 
     - name: Initialize the Terraform backend
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ~/.gcloud/key.json
       run: |
         make init
