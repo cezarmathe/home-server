@@ -7,11 +7,11 @@ SHELL = /bin/bash
 
 # Age identity.
 AGE_IDENTITY ?= ~/.age/key
-AGE_IDENTITY_EXPANDED = $(shell printf "%s" "-i $(AGEAGE_IDENTITY) " )
+AGE_IDENTITY_EXPANDED = -i $(AGE_IDENTITY)
 
 # Age recipients.
 AGE_RECIPIENTS ?=
-AGE_RECIPIENTS_EXPANDED = $(shell for key in $(AGE_RECIPIENTS); do printf "%s" "-r ${key} ")
+AGE_RECIPIENTS_EXPANDED = $(shell for key in $(AGE_RECIPIENTS); do printf "%s" "-r $${key} "; done)
 
 # Age encrypt command.
 AGE_ENCRYPT = age --armor $(AGE_RECIPIENTS_EXPANDED)
@@ -21,6 +21,6 @@ AGE_DECRYPT = age --decrypt $(AGE_IDENTITY_EXPANDED)
 
 # Initialize the workspace.
 init:
-	$(AGE_DECRYPT) -o backend.tfvars.age -i backend.tfvars
+	$(AGE_DECRYPT) -o backend.tfvars.age backend.tfvars
 	terraform init
 .PHONY: init
