@@ -44,13 +44,13 @@ jobs:
         printf "%s\n" "age-keygen $(age-keygen --version)"
 
     # Put secrets in their proper place.
-    - name: Secrets
+    - name: Install secrets
       env:
-        AGE_PRIVATE_KEY: ${{ secrets.AGE }}
-        SSH_PRIVATE_KEY: ${{ secrets.SSH }}
-        WG_PRIVATE_KEY: ${{ secrets.PRIVATEKEY }}
-        WG0_CONF: ${{ secrets.WG0 }}
-        SERVER_IP: ${{ secrets.SERVER_IP }}
+        AGE_PRIVATE_KEY: ${{ secrets.AGE_PRIVATE_KEY }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        WG_PRIVATE_KEY: ${{ secrets.WG_PRIVATE_KEY }}
+        WG_CONF: ${{ secrets.WG_CONF }}
+        SERVER_HOST: ${{ secrets.SERVER_HOST }}
         SERVER_PUBLIC_KEY: ${{ secrets.SERVER_PUBLIC_KEY }}
       run: |
         mkdir -p ~/.age
@@ -59,19 +59,19 @@ jobs:
 
         mkdir -p ~/.ssh
         printf "%s" "${SSH_PRIVATE_KEY}" | tee ~/.ssh/id_ed25519 >/dev/null
-        printf "%s" "${SERVER_IP} ${SERVER_PUBLIC_KEY}" | tee ~/.ssh/known_hosts
+        printf "%s" "${SERVER_HOST} ${SERVER_PUBLIC_KEY}" | tee ~/.ssh/known_hosts
         chmod 400 ~/.ssh/id_ed25519
 
         sudo mkdir -p /etc/wireguard
         printf "%s" "${WG_PRIVATE_KEY}" | sudo tee /etc/wireguard/privatekey >/dev/null
-        printf "%s" "${WG0_CONF}" | sudo tee /etc/wireguard/wg0.conf >/dev/null
+        printf "%s" "${WG_CONF}" | sudo tee /etc/wireguard/wg0.conf >/dev/null
         sudo chmod -R 400 /etc/wireguard
 
     # Connect to the VPN of the server.
     - name: Connect to the VPN
       env:
-        SERVER_IP: ${{ secrets.SERVER_IP }}
+        SERVER_HOST: ${{ secrets.SERVER_HOST }}
         SERVER_USER: ${{ secrets.SERVER_USER }}
       run: |
         sudo systemctl enable --now wg-quick@wg0
-        ssh ${SERVER_USER}@${SERVER_IP}
+        ssh ${SERVER_USER}@${SERVER_HOST}
