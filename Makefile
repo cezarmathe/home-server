@@ -22,5 +22,5 @@ AGE_DECRYPT = age --decrypt $(AGE_IDENTITY_EXPANDED)
 # Initialize the workspace.
 init:
 	$(AGE_DECRYPT) -o backend.tfvars backend.tfvars.age
-	terraform init
+	terraform init -backend-config=backend.tfvars
 .PHONY: init
