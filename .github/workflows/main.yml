@@ -54,9 +54,8 @@ jobs:
         SERVER_PUBLIC_KEY: ${{ secrets.SERVER_PUBLIC_KEY }}
         GCLOUD_PRIVATE_KEY: ${{ secrets.GCLOUD_PRIVATE_KEY }}
       run: |
-        mkdir -p ~/.age
-        printf "%s" "${AGE_PRIVATE_KEY}" | tee ~/.age/key >/dev/null
-        chmod 400 ~/.age/key
+        printf "%s" "${AGE_PRIVATE_KEY}" | tee keys/$(whoami).key >/dev/null
+        chmod 400 keys/$(whoami).key
 
         mkdir -p ~/.ssh
         printf "%s" "${SSH_PRIVATE_KEY}" | tee ~/.ssh/id_ed25519 >/dev/null
@@ -82,8 +81,9 @@ jobs:
         sudo systemctl enable --now wg-quick@wg0
         ssh ${SERVER_USER}@${SERVER_HOST} && echo "Connected successfully."
 
-    - name: Initialize the Terraform backend
+    - name: Initialize Terraform
       env:
         GOOGLE_APPLICATION_CREDENTIALS: /home/runner/.gcloud/key.json
       run: |
-        make init
+        make decrypt
+        terraform init -backend-config=backend.tfvars
