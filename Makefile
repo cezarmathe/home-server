@@ -25,9 +25,8 @@ SECRETS ?= backend.tfvars env/v1.tfvars
 SECRETS_ENCRYPT = $(shell for file in $(SECRETS); do printf "%s" "$${file}.age($${file}) "; done)
 SECRETS_DECRYPT = $(shell for file in $(SECRETS); do printf "%s" "$${file}($${file}.age) "; done)
 
-# Do nothing by default.
-all:
-	@true
+# Encrypt all files by default.
+all: encrypt
 
 # Encrypt all files that need to be encrypted.
 encrypt: $(SECRETS_ENCRYPT)
