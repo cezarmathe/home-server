@@ -32,6 +32,3 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
-
-# Enable the sample tfvars file.
-!env/sample.tfvars
