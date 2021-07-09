@@ -6,7 +6,7 @@
 SHELL = /bin/bash
 
 # Age identity.
-AGE_IDENTITY ?= keys/$(shell whoami).key.pub
+AGE_IDENTITY ?= keys/$(shell whoami).key
 AGE_IDENTITY_EXPANDED = -i $(AGE_IDENTITY)
 
 # Age recipients.
