@@ -1,0 +1,5 @@
+# Ignore key files
+*.key
+
+# Inlcude public keys
+!*.key.pub
