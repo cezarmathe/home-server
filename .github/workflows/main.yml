@@ -86,4 +86,4 @@ jobs:
         GOOGLE_APPLICATION_CREDENTIALS: /home/runner/.gcloud/key.json
       run: |
         make decrypt
-        terraform init -backend-config=backend.tfvars
+        make init

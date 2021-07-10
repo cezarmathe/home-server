@@ -41,3 +41,8 @@ $(SECRETS_ENCRYPT):
 $(SECRETS_DECRYPT):
 	$(AGE_DECRYPT) -o $@ $%
 .PHONY: $(SECRETS_DECRYPT)
+
+# Initialize terraform.
+init:
+	terraform init -backend-config=backend.tfvars
+.PHONY: init
