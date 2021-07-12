@@ -25,6 +25,13 @@ SECRETS ?= backend.tfvars env/v1.tfvars
 SECRETS_ENCRYPT = $(shell for file in $(SECRETS); do printf "%s" "$${file}.age($${file}) "; done)
 SECRETS_DECRYPT = $(shell for file in $(SECRETS); do printf "%s" "$${file}($${file}.age) "; done)
 
+# Workspace.
+WORKSPACE ?= v1
+
+# Whether to auto-approve runs or not.
+AUTO_APPROVE ?= 1
+AUTO_APPROVE_EXPANDED = $(shell if [[ "$(AUTO_APPROVE)" != 0 ]]; then printf "%s" "--auto-approve "; fi)
+
 # Encrypt all files by default.
 all: encrypt
 
@@ -46,3 +53,20 @@ $(SECRETS_DECRYPT):
 init:
 	terraform init -backend-config=backend.tfvars
 .PHONY: init
+
+# Create & update resources.
+apply:
+	terraform workspace select $(WORKSPACE)
+	terraform apply \
+		$(AUTO_APPROVE_EXPANDED) \
+		-input=false \
+        --var-file=env/$(WORKSPACE).tfvars
+.PHONY: apply
+
+destroy:
+	terraform workspace select $(WORKSPACE)
+	terraform destroy \
+		$(AUTO_APPROVE_EXPANDED) \
+		-input=false \
+        --var-file=env/$(WORKSPACE).tfvars
+.PHONY: destroy
