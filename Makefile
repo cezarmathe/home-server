@@ -21,7 +21,7 @@ AGE_DECRYPT = age --decrypt $(AGE_IDENTITY_EXPANDED)
 
 # Files that contain sensitive information and should be encrypted / decrypted
 # on demand.
-SECRETS ?= backend.tfvars env/v1.tfvars
+SECRETS ?= main_override.tf backend.tfvars env/v1.tfvars
 SECRETS_ENCRYPT = $(shell for file in $(SECRETS); do printf "%s" "$${file}.age($${file}) "; done)
 SECRETS_DECRYPT = $(shell for file in $(SECRETS); do printf "%s" "$${file}($${file}.age) "; done)
 
