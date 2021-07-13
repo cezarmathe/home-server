@@ -23,28 +23,17 @@ data "cloudflare_zones" "main" {
 module "caddy" {
   source = "./modules/caddy"
 
-  caddy_data_mountpoint   = local.caddy_data_mountpoint
-  caddy_config_mountpoint = local.caddy_config_mountpoint
+  caddy_data_mountpoint   = "" # to be filled in main_override.tf
+  caddy_config_mountpoint = "" # to be filled in main_override.tf
 
-  cf_email     = local.cf_email
+  cf_email     = var.cf_email
   cf_api_token = var.cf_api_token
 
-  lan_cidr = local.lan_cidr
-  vpn_cidr = local.vpn_cidr
+  lan_cidr = "" # to be filled in main_override.tf
+  vpn_cidr = "" # to be filled in main_override.tf
 
-  public_services = [
-    {
-      hostname = cloudflare_record.plex.hostname
-      address  = "${module.plex.this_network_data[0].ip_address}:32400"
-    },
-  ]
-
-  private_services = [
-    {
-      hostname = "torrents.cezarmathe.com"
-      address  = "${module.transmission.this_network_data[0].ip_address}:9091"
-    },
-  ]
+  public_services  = [] # to be filled in main_override.tf
+  private_services = [] # to be filled in main_override.tf
 }
 
 module "coredns" {
@@ -52,14 +41,11 @@ module "coredns" {
 
   zone = data.cloudflare_zones.main.zones[0].name
 
-  image_version = local.coredns_image_version
+  image_version = "" # to be filled in main_override.tf
 
-  addresses = local.coredns_addresses
+  addresses = [] # to be filled in main_override.tf
 
-  hostnames = [
-    "torrents.cezarmathe.com",
-    cloudflare_record.plex.hostname,
-  ]
+  hostnames = [] # to be filled in main_override.tf
 }
 
 module "minecraft" {
@@ -67,7 +53,7 @@ module "minecraft" {
   version = "~> 0.1"
 
   server_properties = module.minecraft_server_properties.this
-  timezone = var.timezone
+  timezone          = var.timezone
 }
 
 module "minecraft_server_properties" {
@@ -86,8 +72,8 @@ module "stevebot" {
   source  = "cezarmathe/stevebot/docker"
   version = "~> 0.2"
 
-  rcon_password  = ""
-  discord_token = ""
+  rcon_password = "" # to be filled in main_override.tf
+  discord_token = "" # to be filled in main_override.tf
 }
 
 module "syncthing" {
@@ -106,10 +92,10 @@ module "transmission" {
 
 # DNS record for the Plex server.
 resource "cloudflare_record" "plex" {
-  zone_id  = data.cloudflare_zones.main.zones[0].id
-  name     = local.plex_cf_record_name
-  value    = local.plex_cf_record_value
-  type     = local.plex_cf_record_type
-  proxied  = true
-  ttl      = 1
+  zone_id = data.cloudflare_zones.main.zones[0].id
+  name    = "" # to be filled in main_override.tf
+  value   = "" # to be filled in main_override.tf
+  type    = "" # to be filled in main_override.tf
+  proxied = true
+  ttl     = 1
 }

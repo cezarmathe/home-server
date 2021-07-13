@@ -15,6 +15,11 @@ variable "cf_zone_name" {
   description = "Cloudflare zone name."
 }
 
+variable "cf_email" {
+  type        = string
+  description = "Cloudflare email."
+}
+
 variable "plex_claim" {
   type        = string
   description = "Plex claim."
