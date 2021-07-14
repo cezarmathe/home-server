@@ -49,9 +49,13 @@ $(SECRETS_DECRYPT):
 	$(AGE_DECRYPT) -o $@ $%
 .PHONY: $(SECRETS_DECRYPT)
 
+OUTPUT = tee "$(shell date +%Y_%m_%d-%H_%m_%S ).log"
+
 # Initialize terraform.
 init:
-	terraform init -backend-config=backend.tfvars
+	terraform init \
+		-backend-config=backend.tfvars \
+		| $(OUTPUT)
 .PHONY: init
 
 # Create & update resources.
@@ -60,7 +64,8 @@ apply:
 	terraform apply \
 		$(AUTO_APPROVE_EXPANDED) \
 		-input=false \
-        --var-file=env/$(WORKSPACE).tfvars
+        --var-file=env/$(WORKSPACE).tfvars \
+		| $(OUTPUT)
 .PHONY: apply
 
 destroy:
@@ -68,5 +73,6 @@ destroy:
 	terraform destroy \
 		$(AUTO_APPROVE_EXPANDED) \
 		-input=false \
-        --var-file=env/$(WORKSPACE).tfvars
+        --var-file=env/$(WORKSPACE).tfvars \
+		| $(OUTPUT)
 .PHONY: destroy
