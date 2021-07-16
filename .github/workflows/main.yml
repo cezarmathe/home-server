@@ -87,3 +87,14 @@ jobs:
       run: |
         make decrypt
         make init
+
+    - name: Apply the plan
+      env:
+          GOOGLE_APPLICATION_CREDENTIALS: /home/runner/.gcloud/key.json
+      run: |
+        make apply WORKSPACE=default || true
+        make encrypt SECRETS="*.log" AGE_RECIPIENTS=keys/tcx.key.pub
+        git checkout logs
+        git add *.age
+        git commit -m "Apply plan $(date "+%d/%m/%Y %H:%M:%S")"
+        git push origin logs
