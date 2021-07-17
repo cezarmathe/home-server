@@ -70,6 +70,7 @@ apply:
 		-input=false \
         --var-file=env/$(WORKSPACE).tfvars \
 		-no-color \
+		2>&1 \
 		| $(OUTPUT)
 .PHONY: apply
 
@@ -81,5 +82,6 @@ destroy:
 		-input=false \
         --var-file=env/$(WORKSPACE).tfvars \
 		-no-color \
+		2>&1 \
 		| $(OUTPUT)
 .PHONY: destroy
