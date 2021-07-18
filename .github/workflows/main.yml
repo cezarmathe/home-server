@@ -94,6 +94,7 @@ jobs:
       run: |
         make apply WORKSPACE=default || true
         make encrypt SECRETS="*.log" AGE_RECIPIENTS=keys/tcx.key.pub
+        git fetch
         git checkout logs
         git add *.age
         git commit -m "Apply plan $(date "+%d/%m/%Y %H:%M:%S")"
