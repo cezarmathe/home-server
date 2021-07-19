@@ -93,6 +93,11 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS: /home/runner/.gcloud/key.json
       run: |
         make apply WORKSPACE=default || true
+
+    - name: Push encrypted logs
+      run: |
+        git config --global user.name ghci
+        git config --global user.email ghci@cezarmathe.com
         make encrypt SECRETS="*.log" AGE_RECIPIENTS=keys/tcx.key.pub
         git fetch
         git checkout logs
