@@ -21,11 +21,11 @@ AGE_DECRYPT = age --decrypt $(AGE_IDENTITY_EXPANDED)
 
 # Files that contain sensitive information and should be encrypted / decrypted
 # on demand.
-SECRETS ?= *.log
+SECRETS ?=
 SECRETS_ENCRYPT = $(shell for file in $(SECRETS); do printf "%s" "$${file}.age($${file}) "; done)
 SECRETS_DECRYPT = $(shell for file in $(SECRETS); do printf "%s" "$${file}($${file}.age) "; done)
 
-# Encrypt all files by default.
+# Decrypt all files by default.
 all: decrypt
 
 # Encrypt all files that need to be encrypted.
